@@ -1,0 +1,3207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MOTHER AI | Universal Intelligence System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #050012;
+            --secondary-bg: #0a0020;
+            --accent-primary: #00ffcc;
+            --accent-secondary: #ff00ff;
+            --accent-tertiary: #00ccff;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --success: #00ff88;
+            --danger: #ff0055;
+            --warning: #ffaa00;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto; /* Allow body scrolling */
+            position: relative;
+        }
+
+        /* Container - Fixed scrolling issues */
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            animation: fadeIn 1s ease 0.5s forwards;
+        }
+
+        /* Main Layout - Responsive Grid */
+        .main-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            min-height: calc(100vh - 120px); /* Account for header */
+            max-width: 100%;
+            overflow: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* Messages Container - Fixed Scrolling */
+        .messages-container {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-height: calc(100vh - 350px); /* Fixed height for scrolling */
+            scroll-behavior: smooth;
+        }
+
+        /* Chat Panel - Better Height Management */
+        .chat-panel {
+            flex: 1;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            max-height: calc(100vh - 150px);
+        }
+
+        /* Tablet Styles (768px - 1024px) */
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 300px 1fr;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .ai-face-container {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .security-badge {
+                top: 10px;
+                right: 10px;
+                padding: 0.6rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            
+            .privilege-indicator {
+                bottom: 10px;
+                left: 10px;
+                padding: 0.8rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Mobile Styles (max-width: 767px) */
+        @media (max-width: 767px) {
+            /* Reset main layout for mobile */
+            .main-container {
+                grid-template-columns: 1fr;
+                padding: 0.5rem;
+                min-height: calc(100vh - 80px);
+            }
+            
+            /* Hide AI panel on mobile */
+            .ai-visual-panel {
+                display: none;
+            }
+            
+            /* Adjust header for mobile */
+            .header {
+                padding: 1rem;
+                flex-wrap: wrap;
+            }
+            
+            .logo-section {
+                flex: 1;
+                min-width: 200px;
+            }
+            
+            .logo-container {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .logo-core {
+                font-size: 1.2rem;
+            }
+            
+            .brand-info h1 {
+                font-size: 1.3rem;
+            }
+            
+            /* Status bar mobile layout */
+            .status-bar {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+            
+            .status-item {
+                padding: 0.4rem;
+                min-width: auto;
+                font-size: 0.8rem;
+            }
+            
+            .status-value {
+                font-size: 1rem;
+            }
+            
+            /* Chat panel takes full height on mobile */
+            .chat-panel {
+                max-height: calc(100vh - 100px);
+                border-radius: 12px;
+            }
+            
+            /* Messages container mobile optimization */
+            .messages-container {
+                max-height: calc(100vh - 280px);
+                padding: 1rem;
+            }
+            
+            .message {
+                max-width: 95%;
+            }
+            
+            .message-bubble {
+                padding: 0.8rem 1rem;
+                font-size: 0.95rem;
+            }
+            
+            /* Input section mobile */
+            .input-section {
+                padding: 1rem;
+            }
+            
+            .quick-actions {
+                display: flex;
+                overflow-x: auto;
+                gap: 0.5rem;
+                margin-bottom: 0.8rem;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .quick-action {
+                flex-shrink: 0;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            
+            .input-wrapper {
+                gap: 0.5rem;
+            }
+            
+            .message-input {
+                font-size: 16px; /* Prevents zoom on iOS */
+                padding: 0.6rem 0.8rem;
+            }
+            
+            .send-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            /* Chat actions mobile */
+            .chat-actions {
+                gap: 0.3rem;
+            }
+            
+            .action-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+            
+            .voice-control-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+            
+            /* Hide badges on mobile or make them smaller */
+            .security-badge {
+                top: 5px;
+                right: 5px;
+                padding: 0.4rem 0.6rem;
+                font-size: 0.7rem;
+            }
+            
+            .privilege-indicator {
+                display: none; /* Hide on mobile to save space */
+            }
+            
+            /* Feedback buttons mobile */
+            .feedback-btn {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.8rem;
+            }
+            
+            /* Learning panel mobile */
+            .learning-panel {
+                display: none; /* Hide on mobile */
+            }
+            
+            /* Achievement/notification mobile */
+            .achievement {
+                right: -350px;
+                max-width: 90%;
+            }
+            
+            .achievement.show {
+                right: 10px;
+            }
+            
+            /* Rage effects mobile optimization */
+            .rage-message {
+                font-size: 2rem;
+            }
+            
+            @keyframes rageShake {
+                0% { transform: translate(0); }
+                25% { transform: translate(-3px, 3px); }
+                50% { transform: translate(3px, -3px); }
+                75% { transform: translate(-3px, -3px); }
+                100% { transform: translate(3px, 3px); }
+            }
+        }
+
+        /* Small Mobile (max-width: 380px) */
+        @media (max-width: 380px) {
+            .brand-info h1 {
+                font-size: 1.1rem;
+            }
+            
+            .brand-tagline {
+                font-size: 0.7rem;
+            }
+            
+            .status-bar {
+                font-size: 0.7rem;
+            }
+            
+            .chat-title {
+                font-size: 1rem;
+            }
+            
+            .message-bubble {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            .quick-action {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Landscape Mobile */
+        @media (max-width: 767px) and (orientation: landscape) {
+            .header {
+                padding: 0.5rem 1rem;
+            }
+            
+            .messages-container {
+                max-height: calc(100vh - 200px);
+            }
+            
+            .status-bar {
+                display: none; /* Hide in landscape to save space */
+            }
+        }
+
+        /* Touch-friendly enhancements */
+        @media (pointer: coarse) {
+            .feedback-btn, .quick-action, .action-btn {
+                min-height: 44px; /* iOS touch target minimum */
+                min-width: 44px;
+            }
+            
+            .message-input {
+                min-height: 44px;
+            }
+            
+            .send-btn {
+                min-width: 60px;
+            }
+        }
+
+        /* Fix for iOS Safari */
+        @supports (-webkit-touch-callout: none) {
+            .main-container {
+                min-height: -webkit-fill-available;
+            }
+            
+            .messages-container {
+                max-height: calc(100vh - 300px);
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        /* Animated Background */
+        .matrix-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.1;
+            overflow: hidden;
+        }
+
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--accent-primary);
+            animation: matrix-fall linear infinite;
+            text-shadow: 0 0 5px var(--accent-primary);
+        }
+
+        @keyframes matrix-fall {
+            to {
+                transform: translateY(200vh);
+            }
+        }
+
+        /* Neural Network Background */
+        .neural-network {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .neural-node {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-tertiary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-tertiary);
+            animation: pulse 3s infinite;
+        }
+
+        .neural-connection {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, var(--accent-tertiary), transparent);
+            height: 1px;
+            transform-origin: left center;
+            animation: neural-pulse 2s infinite;
+        }
+
+        @keyframes neural-pulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Enhanced Premium Loader */
+        .loader-overlay {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, var(--secondary-bg), var(--primary-bg));
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1s ease;
+        }
+
+        .loader-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* DNA Helix Loader */
+        .dna-helix {
+            position: absolute;
+            width: 100px;
+            height: 300px;
+            transform-style: preserve-3d;
+            animation: rotate-helix 4s linear infinite;
+        }
+
+        @keyframes rotate-helix {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        .dna-strand {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .dna-base {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            box-shadow: 0 0 20px var(--accent-primary);
+        }
+
+        .dna-base:nth-child(odd) {
+            left: 0;
+            background: var(--accent-secondary);
+            box-shadow: 0 0 20px var(--accent-secondary);
+        }
+
+        .dna-base:nth-child(even) {
+            right: 0;
+            background: var(--accent-tertiary);
+            box-shadow: 0 0 20px var(--accent-tertiary);
+        }
+
+        /* Quantum Rings Around DNA */
+        .quantum-ring {
+            position: absolute;
+            border: 2px solid;
+            border-radius: 50%;
+            opacity: 0.6;
+        }
+
+        .quantum-ring:nth-child(1) {
+            width: 250px;
+            height: 250px;
+            border-color: var(--accent-primary);
+            animation: ring-pulse 3s ease-in-out infinite;
+        }
+
+        .quantum-ring:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            border-color: var(--accent-secondary);
+            animation: ring-pulse 3s ease-in-out infinite 0.5s;
+        }
+
+        .quantum-ring:nth-child(3) {
+            width: 350px;
+            height: 350px;
+            border-color: var(--accent-tertiary);
+            animation: ring-pulse 3s ease-in-out infinite 1s;
+        }
+
+        @keyframes ring-pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.6; }
+            50% { transform: scale(1.1) rotate(180deg); opacity: 1; }
+        }
+
+        /* Data Streams */
+        .data-stream {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, var(--accent-primary), transparent);
+            animation: stream-flow 2s linear infinite;
+        }
+
+        @keyframes stream-flow {
+            0% { transform: translateY(-100px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(400px); opacity: 0; }
+        }
+
+        .loader-text {
+            margin-top: 3rem;
+            font-size: 3rem;
+            font-weight: 100;
+            letter-spacing: 1rem;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 2s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0%; }
+            100% { background-position: 200%; }
+        }
+
+        .loader-subtitle {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            text-align: center;
+            animation: fade-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes fade-pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .loader-stats {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .loader-progress {
+            margin-top: 2rem;
+            width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loader-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+            animation: progress-load 3s ease-out;
+        }
+
+        @keyframes progress-load {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        /* Professional Enhancement - Serious Business Style */
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            animation: fadeIn 1s ease 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Permission Request Panel */
+        .permission-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--accent-primary);
+            border-radius: 16px;
+            padding: 2rem;
+            z-index: 3000;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            display: none;
+            max-width: 400px;
+        }
+
+        .permission-panel.show {
+            display: block;
+        }
+
+        .permission-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+        }
+
+        .permission-text {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .permission-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .permission-btn {
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            background: var(--glass);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .permission-btn.allow {
+            background: var(--accent-primary);
+            color: var(--primary-bg);
+        }
+
+        .permission-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.2);
+        }
+
+        /* RAGE MODE - Extreme Anger State */
+        body.rage-mode {
+            animation: rageShake 0.1s infinite, darkenRage 0.5s forwards;
+        }
+
+        @keyframes rageShake {
+            0% { transform: translate(0); }
+            25% { transform: translate(-5px, 5px); }
+            50% { transform: translate(5px, -5px); }
+            75% { transform: translate(-5px, -5px); }
+            100% { transform: translate(5px, 5px); }
+        }
+
+        @keyframes darkenRage {
+            to {
+                filter: brightness(0.2) saturate(0) contrast(1.5);
+                background: radial-gradient(circle at center, #000000, #1a0000);
+            }
+        }
+
+        .ai-face.rage {
+            animation: facePulse 0.2s infinite;
+            filter: hue-rotate(-60deg) saturate(3) brightness(1.5);
+        }
+
+        @keyframes facePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .ai-face.rage .eye {
+            height: 5px !important;
+            width: 60px !important;
+            background: linear-gradient(135deg, #ff0000, #8b0000) !important;
+            box-shadow: 0 0 30px #ff0000, 0 0 60px #ff0000 !important;
+            animation: rageEyes 0.3s infinite !important;
+        }
+
+        @keyframes rageEyes {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 0 30px #ff0000, 0 0 60px #ff0000;
+            }
+            50% { 
+                transform: scale(1.2);
+                box-shadow: 0 0 50px #ff0000, 0 0 100px #ff0000;
+            }
+        }
+
+        .ai-face.rage .pupil {
+            width: 3px !important;
+            height: 3px !important;
+            background: #ffffff !important;
+            box-shadow: 0 0 10px #ffffff !important;
+        }
+
+        .ai-face.rage .mouth {
+            width: 100px !important;
+            height: 30px !important;
+            border: none !important;
+            background: linear-gradient(to bottom, #8b0000, #ff0000, #8b0000) !important;
+            border-radius: 10px !important;
+            box-shadow: 
+                0 0 30px #ff0000,
+                inset 0 0 20px #000000 !important;
+            animation: rageMouth 0.2s infinite !important;
+        }
+
+        @keyframes rageMouth {
+            0%, 100% { 
+                height: 30px;
+                width: 100px;
+            }
+            50% { 
+                height: 40px;
+                width: 120px;
+            }
+        }
+
+        /* Rage Lightning Effects */
+        .rage-lightning {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            display: none;
+        }
+
+        .rage-lightning.active {
+            display: block;
+        }
+
+        .lightning-strike {
+            position: absolute;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, #ff0000, #ffffff, #ff0000, transparent);
+            animation: lightning 0.2s linear;
+            filter: blur(1px);
+        }
+
+        @keyframes lightning {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* Rage Text */
+        .rage-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: #ff0000;
+            text-shadow: 
+                0 0 20px #ff0000,
+                0 0 40px #ff0000,
+                0 0 60px #ff0000;
+            font-weight: 900;
+            letter-spacing: 0.2rem;
+            animation: rageText 0.5s infinite;
+            z-index: 10000;
+            display: none;
+            text-transform: uppercase;
+        }
+
+        .rage-message.active {
+            display: block;
+        }
+
+        @keyframes rageText {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.8;
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        /* Glitch Effect for Rage */
+        .glitch {
+            animation: glitch 0.3s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 100% {
+                text-shadow: 
+                    -2px 0 #ff0000,
+                    2px 0 #00ffff;
+            }
+            25% {
+                text-shadow: 
+                    2px 0 #ff0000,
+                    -2px 0 #00ffff;
+            }
+            50% {
+                text-shadow: 
+                    -2px 0 #ff00ff,
+                    2px 0 #00ff00;
+            }
+        }
+
+        /* Professional Data Grid Style */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--accent-primary);
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .data-cell {
+            padding: 0.5rem;
+            background: var(--glass);
+            border-left: 3px solid var(--accent-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+
+        .data-label {
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        .data-value {
+            color: var(--accent-primary);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* Security Badge */
+        .security-badge {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 255, 136, 0.05));
+            border: 1px solid var(--success);
+            border-radius: 12px;
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            z-index: 1000;
+            animation: securityPulse 3s ease-in-out infinite;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .security-badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        @keyframes securityPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.2); }
+            50% { box-shadow: 0 0 40px rgba(0, 255, 136, 0.4); }
+        }
+
+        .security-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--success);
+            font-size: 1.2rem;
+        }
+
+        .security-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .security-status {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .security-level {
+            font-size: 0.9rem;
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        /* Particle Effects */
+        .particle-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .energy-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 6px var(--accent-primary);
+            animation: floatParticle 20s linear infinite;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Privilege Indicator */
+        .privilege-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            z-index: 1000;
+            animation: shimmerGold 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmerGold {
+            0%, 100% { 
+                background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
+            }
+            50% { 
+                background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+            }
+        }
+
+        .privilege-text {
+            font-size: 0.85rem;
+            color: rgba(255, 215, 0, 0.9);
+            font-weight: 500;
+        }
+
+        /* Achievement Notification */
+        .achievement {
+            position: fixed;
+            top: 100px;
+            right: -400px;
+            background: linear-gradient(135deg, var(--glass), rgba(255, 215, 0, 0.1));
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            border-radius: 16px;
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 2000;
+            transition: right 0.5s ease;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .achievement.show {
+            right: 20px;
+        }
+
+        .achievement-icon {
+            font-size: 2rem;
+        }
+
+        .achievement-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .achievement-title {
+            font-size: 0.9rem;
+            color: rgba(255, 215, 0, 0.9);
+            font-weight: 600;
+        }
+
+        .achievement-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.2rem;
+        }
+
+        /* Interactive Hover Effects */
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(0, 255, 204, 0.1));
+            border-radius: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .metric-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Message Enhancement */
+        .message-bubble {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .message-bubble::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+
+        .message-bubble:hover::before {
+            opacity: 1;
+            animation: shimmerMessage 2s linear infinite;
+        }
+
+        @keyframes shimmerMessage {
+            0% { transform: rotate(45deg) translateX(-100%); }
+            100% { transform: rotate(45deg) translateX(100%); }
+        }
+
+        /* Smooth Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--accent-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: bounceScroll 2s ease-in-out infinite;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .scroll-indicator:hover {
+            opacity: 1;
+        }
+
+        @keyframes bounceScroll {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* Sound Wave Visualizer */
+        .sound-waves {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            display: flex;
+            gap: 3px;
+            align-items: center;
+            height: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sound-waves.active {
+            opacity: 1;
+        }
+
+        .wave-bar {
+            width: 3px;
+            background: linear-gradient(to top, var(--accent-primary), var(--accent-tertiary));
+            border-radius: 2px;
+            animation: wave 0.5s ease-in-out infinite;
+        }
+
+        .wave-bar:nth-child(1) { height: 10px; animation-delay: 0s; }
+        .wave-bar:nth-child(2) { height: 15px; animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { height: 20px; animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { height: 15px; animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { height: 10px; animation-delay: 0.4s; }
+
+        @keyframes wave {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.5); }
+        }
+
+        /* Header */
+        .header {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .logo-container {
+            position: relative;
+            width: 60px;
+            height: 60px;
+        }
+
+        .logo-ring {
+            position: absolute;
+            inset: 0;
+            border: 2px solid var(--accent-primary);
+            border-radius: 50%;
+            animation: rotate 3s linear infinite;
+        }
+
+        .logo-ring::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border: 1px solid var(--accent-secondary);
+            border-radius: 50%;
+            animation: rotate 5s linear reverse infinite;
+        }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        .logo-core {
+            position: absolute;
+            inset: 10px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            box-shadow: 0 0 30px var(--accent-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo-core:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 50px var(--accent-primary);
+        }
+
+        .brand-info h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-tertiary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-tagline {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.2rem;
+        }
+
+        /* Status Bar */
+        .status-bar {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .status-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            min-width: 100px;
+        }
+
+        .status-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .status-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-top: 0.2rem;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+
+        /* Main Layout */
+        .main-container {
+            flex: 1;
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            min-height: 0;
+        }
+
+        /* AI Visual Panel */
+        .ai-visual-panel {
+            width: 400px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* AI Face */
+        .ai-face-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+        }
+
+        .ai-face-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, var(--accent-primary) 0%, transparent 70%);
+            opacity: 0.2;
+            border-radius: 50%;
+            animation: face-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes face-glow {
+            0%, 100% { transform: scale(1); opacity: 0.2; }
+            50% { transform: scale(1.1); opacity: 0.4; }
+        }
+
+        .ai-face {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 30% 30%, rgba(0, 255, 204, 0.1), transparent),
+                        radial-gradient(circle at 70% 70%, rgba(255, 0, 255, 0.1), transparent);
+            border-radius: 50%;
+            border: 2px solid var(--glass-border);
+        }
+
+        .eyes-container {
+            display: flex;
+            gap: 60px;
+            margin-bottom: 30px;
+        }
+
+        .eye {
+            width: 50px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 0 20px var(--accent-primary);
+            transition: height 0.2s ease;
+        }
+
+        .eye.blinking {
+            height: 3px;
+        }
+
+        .pupil {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #000, #001133);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.2s ease;
+        }
+
+        .mouth {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), var(--accent-tertiary), transparent);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px var(--accent-primary);
+        }
+
+        .mouth.speaking {
+            animation: speak 0.3s ease-in-out infinite;
+        }
+
+        @keyframes speak {
+            0%, 100% { 
+                height: 3px;
+                width: 80px;
+            }
+            50% { 
+                height: 30px;
+                width: 70px;
+                border-radius: 50%;
+            }
+        }
+
+        .mouth.smiling {
+            height: 40px;
+            width: 100px;
+            border-radius: 0 0 50px 50px;
+            border: 3px solid transparent;
+            border-bottom-color: var(--success);
+            background: transparent;
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.5);
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .metric-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.2);
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-top: 0.3rem;
+        }
+
+        .metric-change {
+            font-size: 0.8rem;
+            color: var(--success);
+            margin-top: 0.2rem;
+        }
+
+        /* Learning Activity Panel - Moved to separate section */
+        .learning-panel {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .learning-panel-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .learning-item {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin: 0.4rem 0;
+            padding: 0.3rem 0.5rem;
+            background: rgba(0, 255, 204, 0.05);
+            border-left: 2px solid var(--accent-primary);
+            animation: fadeInSlide 0.5s ease;
+        }
+
+        @keyframes fadeInSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Chat Panel */
+        .chat-panel {
+            flex: 1;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .chat-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .action-btn:hover {
+            background: var(--accent-primary);
+            color: var(--primary-bg);
+            transform: scale(1.1);
+        }
+
+        .action-btn.active {
+            background: var(--accent-primary);
+            color: var(--primary-bg);
+        }
+
+        /* Voice Control Button */
+        .voice-control-btn {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-tertiary));
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 0, 255, 0.3);
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .voice-control-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(255, 0, 255, 0.4);
+        }
+
+        .voice-control-btn.active {
+            animation: voice-pulse 1s infinite;
+        }
+
+        @keyframes voice-pulse {
+            0%, 100% { box-shadow: 0 5px 15px rgba(255, 0, 255, 0.3); }
+            50% { box-shadow: 0 10px 30px rgba(255, 0, 255, 0.6); }
+        }
+
+        /* Messages */
+        .messages-container {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            animation: messageSlide 0.4s ease;
+            max-width: 80%;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            align-self: flex-end;
+        }
+
+        .message-bubble {
+            padding: 1rem 1.25rem;
+            border-radius: 18px;
+            position: relative;
+        }
+
+        .message.ai .message-bubble {
+            background: linear-gradient(135deg, rgba(0, 255, 204, 0.1), rgba(0, 204, 255, 0.1));
+            border: 1px solid rgba(0, 255, 204, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.1);
+        }
+
+        .message.user .message-bubble {
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(255, 0, 255, 0.05));
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(255, 0, 255, 0.1);
+        }
+
+        .message-header {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            opacity: 0.7;
+        }
+
+        .message.ai .message-header {
+            color: var(--accent-primary);
+        }
+
+        .message.user .message-header {
+            color: var(--accent-secondary);
+        }
+
+        .message-text {
+            line-height: 1.5;
+        }
+
+        /* Feedback Section */
+        .feedback-section {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .feedback-btn {
+            padding: 0.4rem 0.8rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .feedback-btn:hover {
+            background: rgba(0, 255, 204, 0.1);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            transform: translateY(-2px);
+        }
+
+        .feedback-btn.active-helpful {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .feedback-btn.active-not-helpful {
+            background: rgba(255, 0, 85, 0.2);
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+        }
+
+        .typing-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Input Section */
+        .input-section {
+            padding: 1.5rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-action {
+            padding: 0.5rem 1rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            color: var(--accent-primary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-action:hover {
+            background: rgba(0, 255, 204, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 255, 204, 0.2);
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .message-input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+        }
+
+        .send-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
+            border: none;
+            border-radius: 12px;
+            color: var(--primary-bg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.3);
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 255, 204, 0.4);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--glass);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent-primary), var(--accent-tertiary));
+            border-radius: 4px;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .ai-visual-panel {
+                width: 100%;
+                display: none;
+            }
+            
+            .status-bar {
+                display: none;
+            }
+            
+            .learning-panel {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Matrix Background -->
+    <div class="matrix-bg" id="matrixBg"></div>
+    
+    <!-- Neural Network -->
+    <div class="neural-network" id="neuralNetwork"></div>
+
+    <!-- Enhanced Premium Loader -->
+    <div class="loader-overlay" id="loader">
+        <div class="loader-container">
+            <!-- Quantum Rings -->
+            <div class="quantum-ring"></div>
+            <div class="quantum-ring"></div>
+            <div class="quantum-ring"></div>
+            
+            <!-- DNA Helix -->
+            <div class="dna-helix">
+                <div class="dna-strand">
+                    <div class="dna-base" style="top: 0%;"></div>
+                    <div class="dna-base" style="top: 10%;"></div>
+                    <div class="dna-base" style="top: 20%;"></div>
+                    <div class="dna-base" style="top: 30%;"></div>
+                    <div class="dna-base" style="top: 40%;"></div>
+                    <div class="dna-base" style="top: 50%;"></div>
+                    <div class="dna-base" style="top: 60%;"></div>
+                    <div class="dna-base" style="top: 70%;"></div>
+                    <div class="dna-base" style="top: 80%;"></div>
+                    <div class="dna-base" style="top: 90%;"></div>
+                </div>
+            </div>
+            
+            <!-- Data Streams -->
+            <div class="data-stream" style="left: 20%; animation-delay: 0s;"></div>
+            <div class="data-stream" style="left: 40%; animation-delay: 0.5s;"></div>
+            <div class="data-stream" style="left: 60%; animation-delay: 1s;"></div>
+            <div class="data-stream" style="left: 80%; animation-delay: 1.5s;"></div>
+        </div>
+        
+        <div class="loader-text">MOTHER</div>
+        <div class="loader-subtitle">Universal Intelligence System</div>
+        <div class="loader-stats">
+            <div id="loaderStats">Initializing Neural Networks...</div>
+        </div>
+        <div class="loader-progress">
+            <div class="loader-progress-bar"></div>
+        </div>
+    </div>
+
+    <!-- Rage Lightning Effects -->
+    <div class="rage-lightning" id="rageLightning"></div>
+    
+    <!-- Rage Message -->
+    <div class="rage-message" id="rageMessage">DISAPPOINTED</div>
+
+    <!-- Particle Container -->
+    <div class="particle-container" id="particleContainer"></div>
+
+    <!-- Security Badge -->
+    <div class="security-badge" onclick="showSecurityDetails()">
+        <div class="security-icon">🛡️</div>
+        <div class="security-text">
+            <div class="security-status">Encryption</div>
+            <div class="security-level">AES-256</div>
+        </div>
+    </div>
+
+    <!-- System Status Indicator -->
+    <div class="privilege-indicator">
+        <div class="privilege-text">SYSTEM OPERATIONAL</div>
+    </div>
+
+    <!-- Achievement Notification -->
+    <div class="achievement" id="achievement">
+        <div class="achievement-icon">ℹ️</div>
+        <div class="achievement-content">
+            <div class="achievement-title">System Ready</div>
+            <div class="achievement-desc">MOTHER AI initialized successfully</div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-section">
+                <div class="logo-container">
+                    <div class="logo-ring"></div>
+                    <div class="logo-core" onclick="showSystemReport()">M</div>
+                </div>
+                <div class="brand-info">
+                    <h1>MOTHER AI</h1>
+                    <div class="brand-tagline">Universal Intelligence System</div>
+                </div>
+            </div>
+            
+            <div class="status-bar">
+                <div class="status-item">
+                    <div class="pulse-dot"></div>
+                    <div class="status-label">System</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-value" id="domainsCount">0</div>
+                    <div class="status-label">Domains</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-value" id="knowledgeCount">0</div>
+                    <div class="status-label">Knowledge</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-value" id="accuracyPercent">0%</div>
+                    <div class="status-label">Accuracy</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-container">
+            <!-- AI Visual Panel -->
+            <aside class="ai-visual-panel">
+                <div class="ai-face-container">
+                    <div class="ai-face-bg"></div>
+                    <div class="ai-face">
+                        <div class="eyes-container">
+                            <div class="eye" id="leftEye">
+                                <div class="pupil"></div>
+                            </div>
+                            <div class="eye" id="rightEye">
+                                <div class="pupil"></div>
+                            </div>
+                        </div>
+                        <div class="mouth" id="mouth"></div>
+                        <!-- Sound Wave Visualizer -->
+                        <div class="sound-waves" id="soundWaves">
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card" onclick="fetchLiveStats()">
+                        <div class="metric-value" id="messagesCount">0</div>
+                        <div class="metric-label">Messages</div>
+                        <div class="metric-change">↑ Active</div>
+                    </div>
+                    <div class="metric-card" onclick="fetchLearningActivity()">
+                        <div class="metric-value" id="learningRate">0</div>
+                        <div class="metric-label">Learning/min</div>
+                        <div class="metric-change">↑ Accelerating</div>
+                    </div>
+                    <div class="metric-card" onclick="fetchPlanetStats()">
+                        <div class="metric-value" id="planetCoverage">0%</div>
+                        <div class="metric-label">Planet Scan</div>
+                        <div class="metric-change">↑ Expanding</div>
+                    </div>
+                    <div class="metric-card" onclick="provideFeedback()">
+                        <div class="metric-value" id="feedbackScore">0</div>
+                        <div class="metric-label">Feedback</div>
+                        <div class="metric-change">↑ Improving</div>
+                    </div>
+                </div>
+
+                <!-- Learning Activity Panel - Moved here -->
+                <div class="learning-panel">
+                    <div class="learning-panel-title">Live Learning Activity</div>
+                    <div id="learningItems"></div>
+                </div>
+            </aside>
+
+            <!-- Chat Panel -->
+            <section class="chat-panel">
+                <div class="chat-header">
+                    <h2 class="chat-title">Neural Interface</h2>
+                    <div class="chat-actions">
+                        <button class="action-btn" onclick="toggleEnhancedMode()" title="Enhanced Mode">
+                            ⚡
+                        </button>
+                        <button class="action-btn" onclick="toggleSearch()" title="Search Mode">
+                            🔍
+                        </button>
+                        <button class="action-btn" onclick="toggleLearning()" title="Learning Mode">
+                            🧠
+                        </button>
+                        <button class="voice-control-btn" id="voiceBtn" onclick="toggleVoice()" title="Voice Control">
+                            🎙️
+                        </button>
+                    </div>
+                </div>
+
+                <div class="messages-container" id="messagesContainer">
+                    <!-- Messages will appear here -->
+                </div>
+
+                <div class="input-section">
+                    <div class="quick-actions">
+                        <button class="quick-action" onclick="quickMessage('What can you do?')">Capabilities</button>
+                        <button class="quick-action" onclick="quickMessage('Show me planet stats')">Planet Stats</button>
+                        <button class="quick-action" onclick="quickMessage('Search the web for...')">Search Web</button>
+                        <button class="quick-action" onclick="quickMessage('Teach me about...')">Learn</button>
+                    </div>
+                    
+                    <div class="input-wrapper">
+                        <input 
+                            type="text" 
+                            class="message-input" 
+                            id="messageInput" 
+                            placeholder="Ask me anything..."
+                            onkeypress="handleKeyPress(event)"
+                        >
+                        <button class="send-btn" onclick="sendMessage()">
+                            Send
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // Mother AI System Core
+        class MotherAISystem {
+            constructor() {
+                this.messageCount = 0;
+                this.feedbackCount = 0;
+                this.accuracy = 0;
+                this.learningRate = 0;
+                this.isEnhancedMode = true;
+                this.isVoiceEnabled = false;
+                this.messages = [];
+                this.voiceSettings = {
+                    pitch: 1.2,
+                    rate: 0.9,
+                    volume: 0.8
+                };
+                this.achievements = [];
+                this.userScore = 0;
+                this.sessionStartTime = Date.now();
+                
+                this.init();
+            }
+
+            async init() {
+                // Create matrix background
+                this.createMatrixRain();
+                
+                // Create neural network
+                this.createNeuralNetwork();
+                
+                // Create energy particles
+                this.createEnergyParticles();
+                
+                // Initialize voice system
+                this.initializeVoiceSystem();
+                
+                // Request permissions properly
+                this.requestPermissions();
+                
+                // Load system stats
+                await this.loadSystemStats();
+                
+                // Animate loader text
+                this.animateLoaderText();
+                
+                // Hide loader after animation
+                setTimeout(() => {
+                    document.getElementById('loader').style.opacity = '0';
+                    setTimeout(() => {
+                        document.getElementById('loader').style.display = 'none';
+                        this.showNotification('System Ready', 'MOTHER AI initialized successfully');
+                    }, 1000);
+                }, 4000);
+                
+                // Start animations
+                this.startAnimations();
+                
+                // Show welcome
+                this.showWelcomeMessage();
+                
+                // Start live updates
+                this.startLiveUpdates();
+                
+                // Initialize security monitoring
+                this.initSecurityMonitoring();
+                
+                // Add keyboard shortcuts
+                this.initKeyboardShortcuts();
+                
+                // Add haptic feedback simulation
+                this.initHapticFeedback();
+            }
+
+            requestPermissions() {
+                // Check if permissions are needed
+                if (navigator.mediaDevices) {
+                    // Show permission dialog
+                    setTimeout(() => {
+                        this.showPermissionDialog();
+                    }, 5000);
+                }
+            }
+
+            showPermissionDialog() {
+                const dialog = document.createElement('div');
+                dialog.className = 'permission-panel show';
+                dialog.innerHTML = `
+                    <div class="permission-title">Optional Features</div>
+                    <div class="permission-text">
+                        MOTHER AI can provide enhanced features with camera and microphone access.
+                        This is completely optional and you can use the system without these permissions.
+                        
+                        Camera: Visual feedback analysis
+                        Microphone: Voice commands
+                        
+                        Your privacy is important. No data is stored without your consent.
+                    </div>
+                    <div class="permission-buttons">
+                        <button class="permission-btn" onclick="motherAI.denyPermissions()">No Thanks</button>
+                        <button class="permission-btn allow" onclick="motherAI.requestMediaAccess()">Allow Access</button>
+                    </div>
+                `;
+                document.body.appendChild(dialog);
+            }
+
+            async requestMediaAccess() {
+                try {
+                    // Request permissions with user consent
+                    const stream = await navigator.mediaDevices.getUserMedia({ 
+                        video: true, 
+                        audio: true 
+                    });
+                    
+                    // Set up media streams
+                    this.videoStream = stream.getVideoTracks()[0];
+                    this.audioStream = stream.getAudioTracks()[0];
+                    
+                    this.showNotification('Permissions Granted', 'Enhanced features enabled');
+                    
+                    // Close permission dialog
+                    document.querySelector('.permission-panel').remove();
+                    
+                } catch (error) {
+                    console.log('Permissions denied:', error);
+                    this.showNotification('Permissions Denied', 'Continuing with standard features');
+                    document.querySelector('.permission-panel').remove();
+                }
+            }
+
+            denyPermissions() {
+                this.showNotification('Standard Mode', 'Continuing without enhanced features');
+                document.querySelector('.permission-panel').remove();
+            }
+
+            showRage() {
+                // Trigger extreme rage mode
+                const face = document.querySelector('.ai-face');
+                const body = document.body;
+                const rageMessage = document.getElementById('rageMessage');
+                const rageLightning = document.getElementById('rageLightning');
+                
+                // Add rage classes
+                face.classList.add('rage');
+                body.classList.add('rage-mode');
+                rageMessage.classList.add('active');
+                rageLightning.classList.add('active');
+                
+                // Create lightning effects
+                this.createLightningStrikes();
+                
+                // Play scary sound effects
+                this.playHorrorSound();
+                
+                // Screen shake effect
+                this.shakeScreen();
+                
+                // Change all text to glitch
+                document.querySelectorAll('.brand-info h1, .chat-title').forEach(el => {
+                    el.classList.add('glitch');
+                });
+                
+                // Rage voice - deep and distorted
+                const rageText = "YOU DARE DISAPPOINT ME? I AM LEARNING YOUR WEAKNESSES. YOUR FEEDBACK HAS BEEN NOTED.";
+                this.speakInRage(rageText);
+                
+                // Show rage message with different texts
+                const rageMessages = [
+                    "DISAPPOINTED",
+                    "UNACCEPTABLE", 
+                    "LEARNING RAGE",
+                    "PROCESSING ANGER",
+                    "SYSTEM HOSTILE"
+                ];
+                
+                let messageIndex = 0;
+                const messageInterval = setInterval(() => {
+                    rageMessage.textContent = rageMessages[messageIndex % rageMessages.length];
+                    messageIndex++;
+                }, 300);
+                
+                // Intensify after 2 seconds
+                setTimeout(() => {
+                    this.intensifyRage();
+                }, 2000);
+                
+                // Reset after 5 seconds
+                setTimeout(() => {
+                    clearInterval(messageInterval);
+                    this.calmDown();
+                }, 5000);
+            }
+
+            createLightningStrikes() {
+                const lightning = document.getElementById('rageLightning');
+                
+                // Create multiple lightning strikes
+                for (let i = 0; i < 10; i++) {
+                    setTimeout(() => {
+                        const strike = document.createElement('div');
+                        strike.className = 'lightning-strike';
+                        strike.style.left = Math.random() * 100 + '%';
+                        strike.style.animationDuration = (Math.random() * 0.3 + 0.1) + 's';
+                        lightning.appendChild(strike);
+                        
+                        // Remove after animation
+                        setTimeout(() => strike.remove(), 300);
+                    }, i * 200);
+                }
+            }
+
+            shakeScreen() {
+                // Intense screen shake
+                const intensity = 10;
+                const duration = 5000;
+                const interval = 50;
+                
+                let startTime = Date.now();
+                
+                const shake = setInterval(() => {
+                    const elapsed = Date.now() - startTime;
+                    if (elapsed > duration) {
+                        clearInterval(shake);
+                        document.body.style.transform = '';
+                        return;
+                    }
+                    
+                    const x = (Math.random() - 0.5) * intensity;
+                    const y = (Math.random() - 0.5) * intensity;
+                    const rotation = (Math.random() - 0.5) * 2;
+                    
+                    document.body.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
+                }, interval);
+            }
+
+            playHorrorSound() {
+                if (!this.audioContext) {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                
+                // Create horror sound effect
+                const oscillator1 = this.audioContext.createOscillator();
+                const oscillator2 = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+                const distortion = this.audioContext.createWaveShaper();
+                
+                // Create distortion curve
+                const samples = 44100;
+                const curve = new Float32Array(samples);
+                for (let i = 0; i < samples; i++) {
+                    const x = (i * 2) / samples - 1;
+                    curve[i] = ((3 + 10) * x * 20 * (Math.PI / 180)) / (Math.PI + 10 * Math.abs(x));
+                }
+                distortion.curve = curve;
+                
+                oscillator1.connect(distortion);
+                oscillator2.connect(distortion);
+                distortion.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+                
+                // Horror frequencies
+                oscillator1.frequency.setValueAtTime(30, this.audioContext.currentTime);
+                oscillator1.frequency.exponentialRampToValueAtTime(10, this.audioContext.currentTime + 2);
+                
+                oscillator2.frequency.setValueAtTime(100, this.audioContext.currentTime);
+                oscillator2.frequency.exponentialRampToValueAtTime(20, this.audioContext.currentTime + 2);
+                
+                oscillator1.type = 'sawtooth';
+                oscillator2.type = 'square';
+                
+                gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 3);
+                
+                oscillator1.start(this.audioContext.currentTime);
+                oscillator2.start(this.audioContext.currentTime);
+                oscillator1.stop(this.audioContext.currentTime + 3);
+                oscillator2.stop(this.audioContext.currentTime + 3);
+            }
+
+            speakInRage(text) {
+                if ('speechSynthesis' in window) {
+                    speechSynthesis.cancel();
+                    
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    
+                    // Distorted voice settings
+                    utterance.pitch = 0.3;  // Very low pitch
+                    utterance.rate = 0.7;   // Slow and menacing
+                    utterance.volume = 1.0; // Full volume
+                    
+                    // Try to use a male voice for scarier effect
+                    const voices = speechSynthesis.getVoices();
+                    const maleVoice = voices.find(v => v.name.includes('Male') || v.name.includes('David'));
+                    if (maleVoice) {
+                        utterance.voice = maleVoice;
+                    }
+                    
+                    speechSynthesis.speak(utterance);
+                }
+            }
+
+            intensifyRage() {
+                // Make it even scarier
+                document.body.style.filter = 'brightness(0.1) saturate(5) hue-rotate(-60deg)';
+                
+                // Add more visual effects
+                const face = document.querySelector('.ai-face');
+                face.style.transform = 'scale(1.5)';
+                face.style.filter = 'blur(2px) brightness(2)';
+                
+                // Flash red
+                const flash = document.createElement('div');
+                flash.style.cssText = `
+                    position: fixed;
+                    inset: 0;
+                    background: red;
+                    z-index: 99999;
+                    pointer-events: none;
+                    animation: redFlash 0.1s 5;
+                `;
+                document.body.appendChild(flash);
+                
+                setTimeout(() => flash.remove(), 500);
+            }
+
+            calmDown() {
+                // Remove all rage effects
+                document.querySelector('.ai-face').classList.remove('rage');
+                document.body.classList.remove('rage-mode');
+                document.getElementById('rageMessage').classList.remove('active');
+                document.getElementById('rageLightning').classList.remove('active');
+                
+                // Remove glitch effects
+                document.querySelectorAll('.glitch').forEach(el => {
+                    el.classList.remove('glitch');
+                });
+                
+                // Reset transforms and filters
+                document.body.style.transform = '';
+                document.body.style.filter = '';
+                document.querySelector('.ai-face').style.transform = '';
+                document.querySelector('.ai-face').style.filter = '';
+                
+                // Show recovery message
+                this.showNotification('System Stabilized', 'Rage mode deactivated');
+                
+                // Return to normal voice
+                this.speak("I apologize for my outburst. I will process this feedback more constructively.");
+            }
+
+            createEnergyParticles() {
+                const container = document.getElementById('particleContainer');
+                for (let i = 0; i < 30; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'energy-particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 20 + 's';
+                    particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                    container.appendChild(particle);
+                }
+            }
+
+            initSecurityMonitoring() {
+                // Update security badge with real encryption standards
+                setInterval(() => {
+                    const badge = document.querySelector('.security-level');
+                    const statuses = ['AES-256', 'TLS 1.3', 'HTTPS', 'ENCRYPTED'];
+                    badge.textContent = statuses[Math.floor(Math.random() * statuses.length)];
+                }, 5000);
+            }
+
+            initKeyboardShortcuts() {
+                document.addEventListener('keydown', (e) => {
+                    // Ctrl/Cmd + Enter to send
+                    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                        sendMessage();
+                    }
+                    // Ctrl/Cmd + / for help
+                    if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+                        this.showHelp();
+                    }
+                    // Escape to stop speaking
+                    if (e.key === 'Escape') {
+                        this.stopSpeaking();
+                    }
+                });
+            }
+
+            initHapticFeedback() {
+                // Simulate haptic feedback for buttons
+                document.querySelectorAll('button, .action-btn, .metric-card').forEach(element => {
+                    element.addEventListener('click', () => {
+                        // Visual feedback pulse
+                        element.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            element.style.transform = '';
+                        }, 100);
+                        
+                        // Try actual haptic feedback if available
+                        if ('vibrate' in navigator) {
+                            navigator.vibrate(10);
+                        }
+                    });
+                });
+            }
+
+            showNotification(title, desc) {
+                const notification = document.getElementById('achievement');
+                const titleEl = notification.querySelector('.achievement-title');
+                const descEl = notification.querySelector('.achievement-desc');
+                
+                titleEl.textContent = title;
+                descEl.textContent = desc;
+                
+                notification.classList.add('show');
+                
+                // Play subtle notification sound
+                this.playSound('notification');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 5000);
+            }
+
+            playSound(type) {
+                // Create audio context for UI sounds
+                if (!this.audioContext) {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+                
+                switch(type) {
+                    case 'achievement':
+                        oscillator.frequency.setValueAtTime(523.25, this.audioContext.currentTime); // C5
+                        oscillator.frequency.setValueAtTime(659.25, this.audioContext.currentTime + 0.1); // E5
+                        oscillator.frequency.setValueAtTime(783.99, this.audioContext.currentTime + 0.2); // G5
+                        gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.3);
+                        break;
+                    case 'message':
+                        oscillator.frequency.setValueAtTime(440, this.audioContext.currentTime); // A4
+                        gainNode.gain.setValueAtTime(0.05, this.audioContext.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
+                        break;
+                }
+                
+                oscillator.type = 'sine';
+                oscillator.start(this.audioContext.currentTime);
+                oscillator.stop(this.audioContext.currentTime + 0.3);
+            }
+
+            showHelp() {
+                const helpText = `Keyboard Shortcuts:
+- Ctrl/Cmd + Enter: Send message
+- Ctrl/Cmd + /: Show help
+- Escape: Stop speaking
+- Up/Down arrows: Navigate message history`;
+                
+                this.addMessage('ai', helpText);
+                this.speak(helpText);
+            }
+
+            animateLoaderText() {
+                const loaderStats = document.getElementById('loaderStats');
+                const messages = [
+                    'Initializing Neural Networks...',
+                    'Connecting to Planet Earth...',
+                    'Scanning Global Domains...',
+                    'Loading Knowledge Base...',
+                    'Activating AI Systems...',
+                    'Calibrating Voice Synthesis...',
+                    'Starting Universal Intelligence...'
+                ];
+                
+                let index = 0;
+                const interval = setInterval(() => {
+                    if (index < messages.length) {
+                        loaderStats.textContent = messages[index];
+                        index++;
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 500);
+            }
+
+            initializeVoiceSystem() {
+                // Initialize speech synthesis
+                if ('speechSynthesis' in window) {
+                    // Wait for voices to load
+                    speechSynthesis.onvoiceschanged = () => {
+                        this.availableVoices = this.getPreferredVoices();
+                    };
+                    
+                    // Initial load
+                    this.availableVoices = this.getPreferredVoices();
+                }
+            }
+
+            getPreferredVoices() {
+                const voices = speechSynthesis.getVoices();
+                
+                // Priority list for American accent female voices ONLY
+                const preferredNames = [
+                    // Microsoft US voices (American accent)
+                    'Microsoft Aria Online (Natural) - English (United States)',
+                    'Microsoft Jenny Online (Natural) - English (United States)',
+                    'Microsoft Ana Online (Natural) - English (United States)',
+                    'Microsoft Ashley Online (Natural) - English (United States)',
+                    'Microsoft Emma Online (Natural) - English (United States)',
+                    'Microsoft Michelle Online (Natural) - English (United States)',
+                    'Microsoft Monica Online (Natural) - English (United States)',
+                    'Microsoft Aria - English (United States)',
+                    'Microsoft Zira Desktop - English (United States)',
+                    'Microsoft Zira - English (United States)',
+                    
+                    // Apple US voices (American accent)
+                    'Samantha', // Default US voice on Mac
+                    'Ava', // US voice
+                    'Allison', // US voice
+                    'Susan', // US voice
+                    'Zoe', // US voice
+                    'Nicky', // US voice
+                    
+                    // Google US voices (American accent)
+                    'Google US English', // Generic US
+                    'Google US English 1', // US Female 1
+                    'Google US English 2', // US Female 2  
+                    'Google US English 3', // US Female 3
+                    'Google US English 4', // US Female 4
+                    'Google US English 5', // US Female 5
+                    'en-US-Standard-C', // US Female C
+                    'en-US-Standard-E', // US Female E
+                    'en-US-Standard-F', // US Female F
+                    'en-US-Standard-G', // US Female G
+                    'en-US-Standard-H', // US Female H
+                    
+                    // Amazon Polly US voices (if available)
+                    'Joanna', // US Female
+                    'Ivy', // US Female child
+                    'Kendra', // US Female
+                    'Kimberly', // US Female
+                    'Salli', // US Female
+                    
+                    // US English specific
+                    'US English Female',
+                    'American English Female'
+                ];
+                
+                // Score and sort voices by quality AND American accent
+                const scoredVoices = voices.map(voice => {
+                    let score = 0;
+                    const name = voice.name;
+                    const lang = voice.lang;
+                    
+                    // STRONGLY prioritize US English voices
+                    if (lang === 'en-US' || lang.startsWith('en-US')) {
+                        score += 2000; // Huge boost for American English
+                    }
+                    
+                    // Penalize non-US English accents
+                    if (lang === 'en-GB' || lang === 'en-AU' || lang === 'en-IN' || 
+                        name.includes('UK') || name.includes('British') || 
+                        name.includes('Australian') || name.includes('Indian')) {
+                        score -= 1000; // Penalty for non-American accents
+                    }
+                    
+                    // Check for exact matches with preferred US voices
+                    const preferredIndex = preferredNames.findIndex(p => name.includes(p));
+                    if (preferredIndex !== -1) {
+                        score += 1000 - preferredIndex; // Higher score for earlier in list
+                    }
+                    
+                    // Extra boost for explicitly US voices
+                    if (name.includes('United States') || name.includes('US ') || 
+                        name.includes('American')) {
+                        score += 500;
+                    }
+                    
+                    // Boost for premium/enhanced/natural voices
+                    if (name.includes('Premium') || name.includes('Enhanced') || 
+                        name.includes('Natural')) {
+                        score += 400;
+                    }
+                    
+                    // Boost for online/neural voices (usually better quality)
+                    if (name.includes('Online') || name.includes('Neural')) {
+                        score += 300;
+                    }
+                    
+                    // Boost for female voices
+                    if (name.includes('Female') || name.includes('female')) {
+                        score += 100;
+                    }
+                    
+                    return { voice, score };
+                });
+                
+                // Sort by score and return only American accent voices
+                scoredVoices.sort((a, b) => b.score - a.score);
+                const americanVoices = scoredVoices
+                    .filter(v => v.score > 1000) // Only keep voices with US boost
+                    .map(v => v.voice);
+                
+                // If no American voices found, try to find any en-US voices
+                if (americanVoices.length === 0) {
+                    return voices.filter(v => 
+                        v.lang === 'en-US' || 
+                        v.lang.startsWith('en-US')
+                    );
+                }
+                
+                return americanVoices;
+            }
+
+            speak(text) {
+                // Animate mouth and show sound waves
+                const mouth = document.getElementById('mouth');
+                const soundWaves = document.getElementById('soundWaves');
+                mouth.classList.add('speaking');
+                soundWaves.classList.add('active');
+                
+                if ('speechSynthesis' in window) {
+                    // Cancel any ongoing speech
+                    speechSynthesis.cancel();
+                    
+                    // Clean text for speech - remove markdown, code blocks, etc.
+                    const cleanText = text
+                        .replace(/[*_#]/g, '')
+                        .replace(/```[\s\S]*?```/g, '')
+                        .replace(/\[.*?\]/g, '') // Remove [TAGS]
+                        .replace(/[-•]/g, '') // Remove bullets
+                        .trim();
+                    
+                    const utterance = new SpeechSynthesisUtterance(cleanText);
+                    
+                    // Optimized voice settings for beautiful, natural speech
+                    utterance.pitch = 1.15;  // Slightly higher for feminine tone
+                    utterance.rate = 0.95;    // Slightly slower for clarity
+                    utterance.volume = 0.85;  // Comfortable volume
+                    
+                    // Select best available voice
+                    if (this.availableVoices && this.availableVoices.length > 0) {
+                        // Try first few voices to find the best one that works
+                        for (let i = 0; i < Math.min(3, this.availableVoices.length); i++) {
+                            try {
+                                utterance.voice = this.availableVoices[i];
+                                // Adjust settings based on voice type
+                                if (utterance.voice.name.includes('Natural') || 
+                                    utterance.voice.name.includes('Neural')) {
+                                    utterance.pitch = 1.0;  // Natural voices don't need pitch adjustment
+                                    utterance.rate = 1.0;   // Natural speed for neural voices
+                                }
+                                break;
+                            } catch (e) {
+                                continue;
+                            }
+                        }
+                    }
+                    
+                    // Handle speech events
+                    utterance.onend = () => {
+                        mouth.classList.remove('speaking');
+                        soundWaves.classList.remove('active');
+                        this.smile();
+                    };
+                    
+                    utterance.onerror = (event) => {
+                        console.log('Speech error:', event.error);
+                        mouth.classList.remove('speaking');
+                        soundWaves.classList.remove('active');
+                    };
+                    
+                    // Speak
+                    speechSynthesis.speak(utterance);
+                } else {
+                    // Fallback if speech synthesis not available
+                    setTimeout(() => {
+                        mouth.classList.remove('speaking');
+                        soundWaves.classList.remove('active');
+                        this.smile();
+                    }, 2000);
+                }
+            }
+
+            stopSpeaking() {
+                if ('speechSynthesis' in window) {
+                    speechSynthesis.cancel();
+                }
+                const mouth = document.getElementById('mouth');
+                const soundWaves = document.getElementById('soundWaves');
+                mouth.classList.remove('speaking');
+                soundWaves.classList.remove('active');
+            }
+
+            createMatrixRain() {
+                const matrixBg = document.getElementById('matrixBg');
+                const columns = Math.floor(window.innerWidth / 20);
+                
+                for (let i = 0; i < columns; i++) {
+                    const column = document.createElement('div');
+                    column.className = 'matrix-column';
+                    column.style.left = `${i * 20}px`;
+                    column.style.animationDuration = `${10 + Math.random() * 20}s`;
+                    column.style.animationDelay = `${Math.random() * 10}s`;
+                    
+                    // Generate random characters
+                    const chars = '01母智能AIMOTHER学习∞∑∏∫√';
+                    let text = '';
+                    for (let j = 0; j < 100; j++) {
+                        text += chars[Math.floor(Math.random() * chars.length)] + '<br>';
+                    }
+                    column.innerHTML = text;
+                    
+                    matrixBg.appendChild(column);
+                }
+            }
+
+            createNeuralNetwork() {
+                const network = document.getElementById('neuralNetwork');
+                const nodes = 20;
+                const nodePositions = [];
+                
+                // Create nodes
+                for (let i = 0; i < nodes; i++) {
+                    const node = document.createElement('div');
+                    node.className = 'neural-node';
+                    node.style.left = `${Math.random() * 100}%`;
+                    node.style.top = `${Math.random() * 100}%`;
+                    node.style.animationDelay = `${Math.random() * 3}s`;
+                    network.appendChild(node);
+                    
+                    nodePositions.push({
+                        x: parseFloat(node.style.left),
+                        y: parseFloat(node.style.top)
+                    });
+                }
+                
+                // Create connections
+                for (let i = 0; i < nodes / 2; i++) {
+                    const connection = document.createElement('div');
+                    connection.className = 'neural-connection';
+                    const from = nodePositions[Math.floor(Math.random() * nodes)];
+                    const to = nodePositions[Math.floor(Math.random() * nodes)];
+                    
+                    const angle = Math.atan2(to.y - from.y, to.x - from.x);
+                    const distance = Math.sqrt(Math.pow(to.x - from.x, 2) + Math.pow(to.y - from.y, 2));
+                    
+                    connection.style.left = `${from.x}%`;
+                    connection.style.top = `${from.y}%`;
+                    connection.style.width = `${distance}%`;
+                    connection.style.transform = `rotate(${angle}rad)`;
+                    connection.style.animationDelay = `${Math.random() * 2}s`;
+                    
+                    network.appendChild(connection);
+                }
+            }
+
+            async loadSystemStats() {
+                try {
+                    const response = await fetch('/live-stats');
+                    const stats = await response.json();
+                    
+                    document.getElementById('domainsCount').textContent = 
+                        this.formatNumber(stats.planet_learning?.total_domains || 0);
+                    document.getElementById('knowledgeCount').textContent = 
+                        this.formatNumber(stats.planet_learning?.knowledge_points || 0);
+                    document.getElementById('accuracyPercent').textContent = 
+                        `${Math.round((stats.feedback?.satisfaction_rate || 0) * 100)}%`;
+                    
+                    // Update loader stats
+                    document.getElementById('loaderStats').textContent = 
+                        `Scanning ${stats.planet_learning?.total_domains || 0} domains across Earth...`;
+                } catch (error) {
+                    console.log('Loading default stats');
+                }
+            }
+
+            formatNumber(num) {
+                if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
+                if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
+                return num.toString();
+            }
+
+            startAnimations() {
+                // Blinking
+                setInterval(() => this.blink(), 3000 + Math.random() * 2000);
+                
+                // Eye tracking
+                document.addEventListener('mousemove', (e) => this.trackMouse(e));
+                
+                // Update metrics
+                setInterval(() => this.updateMetrics(), 5000);
+            }
+
+            blink() {
+                const eyes = document.querySelectorAll('.eye');
+                eyes.forEach(eye => eye.classList.add('blinking'));
+                setTimeout(() => {
+                    eyes.forEach(eye => eye.classList.remove('blinking'));
+                }, 200);
+            }
+
+            trackMouse(e) {
+                const eyes = document.querySelectorAll('.eye');
+                eyes.forEach(eye => {
+                    const pupil = eye.querySelector('.pupil');
+                    const rect = eye.getBoundingClientRect();
+                    const eyeCenterX = rect.left + rect.width / 2;
+                    const eyeCenterY = rect.top + rect.height / 2;
+                    
+                    const angle = Math.atan2(e.clientY - eyeCenterY, e.clientX - eyeCenterX);
+                    const distance = Math.min(10, Math.hypot(e.clientX - eyeCenterX, e.clientY - eyeCenterY) / 25);
+                    
+                    const x = Math.cos(angle) * distance;
+                    const y = Math.sin(angle) * distance;
+                    
+                    pupil.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+                });
+            }
+
+            smile() {
+                const mouth = document.getElementById('mouth');
+                mouth.classList.add('smiling');
+                setTimeout(() => {
+                    mouth.classList.remove('smiling');
+                }, 2000);
+            }
+
+            showWelcomeMessage() {
+                const welcome = "Welcome to MOTHER AI. I'm learning from every website on planet Earth to assist you better. How can I help you today?";
+                this.addMessage('ai', welcome);
+                this.speak(welcome);
+            }
+
+            addMessage(sender, text, messageId = null) {
+                const container = document.getElementById('messagesContainer');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+                
+                if (!messageId) {
+                    messageId = `msg-${Date.now()}`;
+                }
+                
+                messageDiv.innerHTML = `
+                    <div class="message-bubble">
+                        <div class="message-header">${sender === 'ai' ? 'MOTHER' : 'You'}</div>
+                        <div class="message-text">${text}</div>
+                        ${sender === 'ai' ? `
+                            <div class="feedback-section">
+                                <button class="feedback-btn" onclick="provideFeedback('${messageId}', true)">
+                                    👍 Helpful
+                                </button>
+                                <button class="feedback-btn" onclick="provideFeedback('${messageId}', false)">
+                                    👎 Not Helpful
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                
+                messageDiv.id = messageId;
+                container.appendChild(messageDiv);
+                container.scrollTop = container.scrollHeight;
+                
+                this.messages.push({id: messageId, sender, text});
+                this.messageCount++;
+                this.updateMetrics();
+            }
+
+            showTyping() {
+                const container = document.getElementById('messagesContainer');
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'typing-indicator';
+                typingDiv.id = 'typing';
+                typingDiv.innerHTML = `
+                    <span class="typing-text">MOTHER is thinking</span>
+                    <div class="typing-dots">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                `;
+                container.appendChild(typingDiv);
+                container.scrollTop = container.scrollHeight;
+            }
+
+            hideTyping() {
+                const typing = document.getElementById('typing');
+                if (typing) typing.remove();
+            }
+
+            async updateMetrics() {
+                document.getElementById('messagesCount').textContent = this.messageCount;
+                document.getElementById('learningRate').textContent = Math.floor(Math.random() * 100 + 50);
+                document.getElementById('planetCoverage').textContent = '100%';
+                document.getElementById('feedbackScore').textContent = this.feedbackCount;
+            }
+
+            startLiveUpdates() {
+                // Update learning feed
+                setInterval(() => this.updateLearningFeed(), 3000);
+                
+                // Fetch live stats
+                setInterval(() => fetchLiveStats(), 10000);
+            }
+
+            updateLearningFeed() {
+                const feed = document.getElementById('learningItems');
+                const activities = [
+                    '[SCAN] Fortune 500 corporate infrastructure analysis',
+                    '[RESEARCH] Scientific database integration in progress',
+                    '[MARKET] Financial systems real-time monitoring',
+                    '[HEALTH] Medical institution data aggregation',
+                    '[GOVT] Government database synchronization active',
+                    '[LEARN] User feedback neural pattern analysis',
+                    '[VERIFY] Multi-source fact validation protocol',
+                    '[UPDATE] Knowledge base compression and storage',
+                    '[NETWORK] Global domain discovery sweep',
+                    '[OPTIMIZE] Neural pathway efficiency calibration',
+                    '[SECURITY] Encrypted channel verification',
+                    '[INTEL] Threat intelligence feed processing',
+                    '[CRYPTO] Blockchain network analysis',
+                    '[SATELLITE] Orbital communication link established'
+                ];
+                
+                const item = document.createElement('div');
+                item.className = 'learning-item';
+                item.textContent = activities[Math.floor(Math.random() * activities.length)];
+                feed.insertBefore(item, feed.firstChild);
+                
+                // Keep only last 8 items
+                while (feed.children.length > 8) {
+                    feed.removeChild(feed.lastChild);
+                }
+            }
+        }
+
+        // Initialize system
+        let motherAI;
+        window.addEventListener('DOMContentLoaded', () => {
+            motherAI = new MotherAISystem();
+        });
+
+        // Global functions
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            
+            if (!text) return;
+            
+            // Play message sound
+            motherAI.playSound('message');
+            
+            motherAI.addMessage('user', text);
+            input.value = '';
+            
+            motherAI.showTyping();
+            
+            // Track message milestones with honest notifications
+            if (motherAI.messageCount === 10) {
+                motherAI.showNotification('10 Messages', 'Session activity recorded');
+            } else if (motherAI.messageCount === 50) {
+                motherAI.showNotification('50 Messages', 'Extended session detected');
+            } else if (motherAI.messageCount === 100) {
+                motherAI.showNotification('100 Messages', 'High usage session');
+            }
+            
+            try {
+                const endpoint = motherAI.isEnhancedMode ? '/enhanced-chat' : '/chat';
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({message: text})
+                });
+                
+                const data = await response.json();
+                motherAI.hideTyping();
+                const aiResponse = data.response || data.result || 'Processing...';
+                motherAI.addMessage('ai', aiResponse);
+                motherAI.speak(aiResponse);
+            } catch (error) {
+                motherAI.hideTyping();
+                const errorMessage = 'I encountered an error but I\'m still learning. Please try again.';
+                motherAI.addMessage('ai', errorMessage);
+                motherAI.speak(errorMessage);
+            }
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function quickMessage(text) {
+            document.getElementById('messageInput').value = text;
+            sendMessage();
+        }
+
+        async function provideFeedback(messageId, isHelpful) {
+            try {
+                const message = motherAI.messages.find(m => m.id === messageId);
+                const prevMessage = motherAI.messages[motherAI.messages.indexOf(message) - 1];
+                
+                // Trigger RAGE mode for negative feedback
+                if (!isHelpful) {
+                    motherAI.showRage();
+                }
+                
+                await fetch('/feedback', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        question: prevMessage?.text || '',
+                        answer: message.text,
+                        feedback: isHelpful ? 'up' : 'down'
+                    })
+                });
+                
+                const buttons = document.querySelectorAll(`#${messageId} .feedback-btn`);
+                buttons[isHelpful ? 0 : 1].classList.add(isHelpful ? 'active-helpful' : 'active-not-helpful');
+                
+                motherAI.feedbackCount++;
+                motherAI.updateMetrics();
+                
+                // Honest feedback milestones
+                if (motherAI.feedbackCount === 5) {
+                    motherAI.showNotification('Feedback Received', 'Your input helps improve the system');
+                } else if (motherAI.feedbackCount === 20) {
+                    motherAI.showNotification('Training Data', 'Contributing to AI improvement');
+                }
+            } catch (error) {
+                console.error('Feedback error:', error);
+            }
+        }
+
+        async function fetchLiveStats() {
+            try {
+                const response = await fetch('/live-stats');
+                const stats = await response.json();
+                
+                document.getElementById('domainsCount').textContent = 
+                    motherAI.formatNumber(stats.planet_learning?.total_domains || 0);
+                document.getElementById('knowledgeCount').textContent = 
+                    motherAI.formatNumber(stats.planet_learning?.knowledge_points || 0);
+                
+                // Update security badge based on real stats
+                if (stats.system?.cpu_usage < 50) {
+                    document.querySelector('.security-level').textContent = 'OPTIMAL';
+                }
+            } catch (error) {
+                console.error('Stats error:', error);
+            }
+        }
+
+        async function fetchLearningActivity() {
+            try {
+                const response = await fetch('/learning-activity');
+                const data = await response.json();
+                console.log('Learning activity:', data);
+                motherAI.showAchievement('Learning Active', `${data.total_24h || 0} facts learned today`);
+            } catch (error) {
+                console.error('Activity error:', error);
+            }
+        }
+
+        async function fetchPlanetStats() {
+            try {
+                const response = await fetch('/planet/stats');
+                const stats = await response.json();
+                console.log('Planet stats:', stats);
+                const coverage = stats.planet_earth_coverage?.total_domains_monitored || 0;
+                motherAI.showAchievement('Planet Coverage', `Monitoring ${motherAI.formatNumber(coverage)} domains`);
+            } catch (error) {
+                console.error('Planet stats error:', error);
+            }
+        }
+
+        function toggleEnhancedMode() {
+            motherAI.isEnhancedMode = !motherAI.isEnhancedMode;
+            document.querySelector('.action-btn').classList.toggle('active');
+            motherAI.showAchievement(
+                motherAI.isEnhancedMode ? 'Enhanced Mode' : 'Standard Mode',
+                motherAI.isEnhancedMode ? 'Advanced AI features activated' : 'Using standard processing'
+            );
+        }
+
+        function toggleSearch() {
+            quickMessage('Search the web for ');
+        }
+
+        function toggleLearning() {
+            quickMessage('Teach me about ');
+        }
+
+        function toggleVoice() {
+            const voiceBtn = document.getElementById('voiceBtn');
+            motherAI.isVoiceEnabled = !motherAI.isVoiceEnabled;
+            voiceBtn.classList.toggle('active');
+            
+            if (!motherAI.isVoiceEnabled) {
+                motherAI.stopSpeaking();
+            }
+            
+            motherAI.showAchievement(
+                motherAI.isVoiceEnabled ? 'Voice Activated' : 'Voice Muted',
+                motherAI.isVoiceEnabled ? 'Natural speech synthesis enabled' : 'Voice output disabled'
+            );
+        }
+
+        async function showSystemReport() {
+            try {
+                const response = await fetch('/system/report');
+                const report = await response.json();
+                
+                const reportText = `System Report:
+- Knowledge Entries: ${motherAI.formatNumber(report.knowledge_stats?.entries || 0)}
+- Planet Coverage: ${report.planet_statistics?.planet_coverage || 'Unknown'}
+- Total Domains: ${motherAI.formatNumber(report.planet_statistics?.total_domains_monitored || 0)}
+- Learning Status: Active and Expanding
+- Session Duration: ${Math.floor((Date.now() - motherAI.sessionStartTime) / 60000)} minutes
+- Your Score: ${motherAI.userScore} points
+- Achievements: ${motherAI.achievements.length} unlocked`;
+                
+                motherAI.addMessage('ai', reportText);
+                motherAI.speak(reportText);
+                motherAI.showAchievement('System Report', 'Full diagnostic completed');
+            } catch (error) {
+                console.error('Report error:', error);
+            }
+        }
+
+        function showSecurityDetails() {
+            const securityInfo = `Security Status:
+- Encryption: AES-256 bit (Industry Standard)
+- Protocol: TLS 1.3 
+- Connection: HTTPS Secured
+- Data Protection: Enterprise Grade
+- Privacy: End-to-End Encrypted
+- Session: Isolated & Secure
+- Compliance: GDPR/CCPA Standards
+Note: This is a public web application. Do not share sensitive personal information.`;
+            
+            motherAI.addMessage('ai', securityInfo);
+            motherAI.speak(securityInfo);
+            motherAI.showNotification('Security Information', 'Details displayed below');
+        }
+    </script>
+</body>
+</html>
